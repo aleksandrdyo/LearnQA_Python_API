@@ -1,2 +1,2 @@
-# python_api
+# LearnQA_Python_API
 АВТОМАТИЗАЦИЯ ТЕСТИРОВАНИЯ REST API НА PYTHON
