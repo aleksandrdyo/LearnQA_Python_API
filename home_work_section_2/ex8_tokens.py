@@ -17,6 +17,7 @@ response_token = requests.get(link, params={"token": parsing_token})
 #response_token = requests.get(link, params={"token": "fake_token"})
 get_status = response_token.text
 parsing_status = json.loads(get_status)
+#получаем список ключей из словаря list(dict) или list(dict.keys())
 key = list(parsing_status.keys())
 status_job = parsing_status[key[0]]
 
