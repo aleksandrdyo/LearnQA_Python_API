@@ -1,18 +1,13 @@
 import requests
-#import pytest
+import pytest
 
-ex_val = {
-    expected_values1: {'platform': 'Mobile', 'browser': 'No', 'device': 'Android'},
-    expected_values2 = {'platform': 'Mobile', 'browser': 'Chrome', 'device': 'iOS'}
-expected_values3 = {'platform': 'Googlebot', 'browser': 'Unknown', 'device': 'Unknown'}
-expected_values4 = {'platform': 'Web', 'browser': 'Chrome', 'device': 'No'}
-expected_values5 = {'platform': 'Mobile', 'browser': 'No', 'device': 'iPhone'}
-}
-
-for x in expected_values1:
-    print(expected_values1[x])
-
-link = "https://playground.learnqa.ru/ajax/api/user_agent_check"
+ex_val = (
+    {'platform': 'Mobile', 'browser': 'No', 'device': 'Android'},
+    {'platform': 'Mobile', 'browser': 'Chrome', 'device': 'iOS'},
+    {'platform': 'Googlebot', 'browser': 'Unknown', 'device': 'Unknown'},
+    {'platform': 'Web', 'browser': 'Chrome', 'device': 'No'},
+    {'platform': 'Mobile', 'browser': 'No', 'device': 'iPhone'}
+)
 
 user_agent = [
 'Mozilla/5.0 (Linux; U; Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
@@ -22,10 +17,18 @@ user_agent = [
 'Mozilla/5.0 (iPad; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
 ]
 
+link = "https://playground.learnqa.ru/ajax/api/user_agent_check"
+
 for x in user_agent:
     response = requests.get(link, headers={"User-Agent": x})
     parsing_json = response.json()
-    print(parsing_json["platform"])
-    print(parsing_json["browser"])
-    print(parsing_json["device"])
+    print(parsing_json)
+    # print(parsing_json["platform"])
+    # print(parsing_json["browser"])
+    # print(parsing_json["device"])
 
+@pytest.mark.parametrize('name', user_agent)
+    def test_send_user_agent(self, name):
+        response = requests.get(link, headers={"User-Agent": name})
+        parsing_json = response.json()
+        print(parsing_json)
