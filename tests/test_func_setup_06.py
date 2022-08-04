@@ -38,7 +38,7 @@ class TestUserAuth(BaseCase):
         assert "user_id" in response2.json(), "There is no user id in the response"
         user_id_from_check_method = response2.json()["user_id"]
 
-        assert self.user_id_from_auth_method == user_id_from_check_method , "User id from auth method is not equal to user id from check method"
+        assert self.user_id_from_auth_method == user_id_from_check_method, "User id from auth method is not equal to user id from check method"
 
 
 

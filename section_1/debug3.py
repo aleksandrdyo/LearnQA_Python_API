@@ -31,4 +31,4 @@ for x in user_agent:
     def test_send_user_agent(self, name):
         response = requests.get(link, headers={"User-Agent": name})
         parsing_json = response.json()
-        print(parsing_json)
+        if parsing_json =
