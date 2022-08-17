@@ -131,3 +131,6 @@ dmypy.json
 # Learn Qa
 .idea
 .pytest_cache
+logs/*
+
+test_results/
