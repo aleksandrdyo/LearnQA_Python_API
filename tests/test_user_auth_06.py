@@ -31,6 +31,8 @@ class TestUserAuth(BaseCase):
 
         self.link2 = "https://playground.learnqa.ru/api/user/auth"
 
+
+    @allure.title("тест авторизация")
     @allure.description("This test successfully authorize user by email and password")
     def test_auth_user(self):
 
@@ -57,6 +59,7 @@ class TestUserAuth(BaseCase):
         #
         # assert self.user_id_from_auth_method == user_id_from_check_method, "User id from auth method is not equal to user id from check method"
 
+    @allure.title("тест авторизация")
     @allure.description("This test checks authorization status w/o sending auth cookie or token")
     @pytest.mark.parametrize("condition", exclude_params)
     def test_negative_auth_check(self, condition):

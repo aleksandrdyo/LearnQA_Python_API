@@ -4,8 +4,10 @@ from lib.assertions import Assertions
 import pytest
 from datetime import datetime
 from lib.my_requests import MyRequests
+import allure
 
-
+@allure.epic("Registration cases epic")
+@allure.feature("Registration cases feature")
 class TestUserRegister(BaseCase):
 
     #link = "https://playground.learnqa.ru/api/user/"
@@ -15,7 +17,11 @@ class TestUserRegister(BaseCase):
     #     domain = "example.com"
     #     random_part = datetime.now().strftime("%m%d%Y%H%M%S")
     #     self.email = f"{base_part}{random_part}@{domain}"
-
+    @allure.title("Позитивный тест, создание нового пользователя title")
+    @allure.description("Позитивный тест, создание нового пользователя description")
+    @allure.story("Вот первый дополнительный ярлык")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.step("Вот описание первого шага step")
     def test_create_user_successfully(self):
         data = self.prepare_registration_data()
         # data = {
@@ -36,6 +42,9 @@ class TestUserRegister(BaseCase):
         Assertions.assert_json_has_key(response, "id")
 
     #@pytest.mark.parametrize("testdata", data)
+    @allure.title("Негативный тест, создание пользователя с ранее зарегистрированным емайлом")
+    @allure.story("Вот второй дополнительный ярлык")
+    @allure.severity(allure.severity_level.BLOCKER)
     def test_create_user_with_existing_email(self):
         email = 'vinkotov@example.com'
         data = self.prepare_registration_data(email)
@@ -62,6 +71,12 @@ class TestUserRegister(BaseCase):
             f"Unexpected response content {response.content}"
 
 #- Создание пользователя с некорректным email - без символа @
+    @allure.title("Негативный тест, создание пользователя без @")
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.issue('http://mail.ru', name='щелкните меня, чтобы перейти в задачу')
+    @allure.testcase('http://yandex.ru', name='щелкните меня, чтобы перейти к тест-кейсам')
+    @allure.link('http://rbc.ru', link_type="test", name='щелкните меня, чтобы перейти к link')
+    @allure.description_html("test description_html")
     def test_create_user_without_et(self):
 
         email = 'vinkotov2example.com'
@@ -78,12 +93,14 @@ class TestUserRegister(BaseCase):
         response = MyRequests.post("/user/", data=data)
 
         assert "@" not in email, "email with et symbol"
-        Assertions.assert_code_status(response, 400)
+        Assertions.assert_code_status(response, 200)
         #assert response.status_code == 400, f"Unexpected status code {response.status_code}"
         assert response.content.decode(
             "utf-8") == "Invalid email format"
 
 #- Создание пользователя с очень коротким именем в один символ
+    @allure.title("Негативный тест, создание пользователя c коротким емайлом")
+    @allure.severity(allure.severity_level.MINOR)
     def test_update_conference_session_field_name_len(self):
 
         name_len = 1
@@ -108,6 +125,8 @@ class TestUserRegister(BaseCase):
             "utf-8") == "The value of 'email' field is too short"
 
 #- Создание пользователя с очень длинным именем - длиннее 250 символов
+    @allure.title("Негативный тест, создание пользователя с емайлом больше 250 символов")
+    @allure.severity(allure.severity_level.TRIVIAL)
     def test_create_user_with_long_email(self):
 
         email = ""
@@ -147,6 +166,7 @@ class TestUserRegister(BaseCase):
          }
     ]
 
+    @allure.title("Негативный тест, создание пользователя без обязательных полей")
     @pytest.mark.parametrize('datas', data1)
     def test_create_user_without_filed(self, datas):
 
