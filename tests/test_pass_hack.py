@@ -13,13 +13,13 @@ class TestSecretLogin:
 
     passwords = tree.xpath(locator)
 
+    #складываем все пароли в список
     temp = []
-
     for password in passwords:
         password = str(password).strip()
         temp.append(password)
 
-    #убираем дубликаты паролей
+    #убираем дубликаты паролей из списка
     new_list = list(set(temp))
 
     #авторизуемся подбирая нужный пароль и получаем куку
@@ -35,11 +35,14 @@ class TestSecretLogin:
 
         link2 = "https://playground.learnqa.ru/ajax/api/check_auth_cookie"
 
+        #получаем куку
         response2 = requests.get(
             link2,
             cookies={"auth_cookie": auth_sid}
         )
 
+        # Если cookie неверная, то вернет фразу "You are NOT authorized".
+        # Если значение cookie “правильное”, метод вернет: “You are authorized” и выводим верный пасс
         if response2.text == "You are authorized":
             print(passwd)
 

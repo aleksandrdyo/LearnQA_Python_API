@@ -99,9 +99,12 @@ class TestParametrize:
 
 x = 5
 
-def func():
-    print(x)
-    x = 3
+# def func():
+#     print(x)
+#     x = 3
+#
+#
+# func()
 
 
-func()
+print(1 // 2  + 1 / 2)
